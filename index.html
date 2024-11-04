@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello</title>
+    <script>
+        function checkPassword1() {
+            const password = prompt("hello:");
+            const correctPassword = "local"; // ここに正しいパスワードを入力
+
+            if (password === correctPassword) {
+                window.location.href = "./timer"; // リダイレクト先のURL
+            } else {
+                alert(":(");
+            }
+        }
+        function checkPassword2() {
+            const password = prompt("hello:");
+            const correctPassword = "local"; // ここに正しいパスワードを入力
+
+            if (password === correctPassword) {
+                window.location.href = "./limit"; // リダイレクト先のURL
+            } else {
+                alert(":(");
+            }
+        }
+        function checkPassword3() {
+            const password = prompt("hello:");
+            const correctPassword = "local"; // ここに正しいパスワードを入力
+
+            if (password === correctPassword) {
+                window.location.href = "./limit2"; // リダイレクト先のURL
+            } else {
+                alert(":(");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword2()">click</button>
+    <button onclick="checkPassword3()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+    <button onclick="checkPassword1()">click</button>
+</body>
+</html>
