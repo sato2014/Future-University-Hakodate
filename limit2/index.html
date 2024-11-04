@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>順番にカードを表示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .grid-container {
+            display: grid;
+            gap: 10px;
+            width: 90%;
+            max-width: 1000px;
+        }
+        .card {
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .card.expanded {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+        }
+        .remaining-time {
+            position: absolute;
+            bottom: 10px;
+            font-size: 14px;
+            color: red;
+        }
+        .cooldown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            z-index: 100;
+            display: none; /* デフォルトでは非表示 */
+        }
+        .disabled {
+            pointer-events: none; /* クリックを無効化 */
+            opacity: 0.5; /* ビジュアル的にクリック不可を示す */
+        }
+    </style>
+</head>
+<body>
+
+<div class="grid-container" id="gridContainer"></div>
+<div class="cooldown-overlay" id="cooldownOverlay">再使用不可: <span id="cooldownTimer"></span>秒</div>
+
+<script>
+    let isCardExpanded = false; // 他のカードのクリックを防ぐためのフラグ
+    let isCooldownActive = false; // 全カード再使用不可状態のフラグ
+    const cooldownOverlay = document.getElementById('cooldownOverlay');
+    const cooldownTimer = document.getElementById('cooldownTimer');
+
+    async function fetchAndDisplayCards() {
+        const response = await fetch('data.txt');
+        const text = await response.text();
+        const lines = text.split('\n').filter(line => line.trim() !== '');
+        const gridContainer = document.getElementById('gridContainer');
+
+        // 行数に応じてグリッドの列数を調整
+        const gridSize = Math.ceil(Math.sqrt(lines.length));
+        gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+        lines.forEach((line, index) => {
+            const [text, time] = line.split(',');
+            const displayTime = parseInt(time.trim()); // 表示する時間(ms)
+            const cooldownTime = displayTime + 5000; // 再使用不可時間を設定 (拡大表示時間 + 5秒)
+
+            // カード作成
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerText = text.trim();
+            card.dataset.time = displayTime; // 表示時間
+            card.dataset.cooldown = cooldownTime; // 再使用不可時間
+            card.dataset.remainingTime = displayTime; // 残り時間
+            card.dataset.isOnCooldown = "false"; // 再使用不可かどうか
+
+            // 残り時間を表示するための要素を追加
+            const remainingTimeDisplay = document.createElement('div');
+            remainingTimeDisplay.className = 'remaining-time';
+            remainingTimeDisplay.style.display = 'none';
+            card.appendChild(remainingTimeDisplay);
+
+            // カードをクリックしたときのアクション
+            card.addEventListener('click', () => {
+                if (isCooldownActive || isCardExpanded) return; // クールダウン中または他のカードが拡大中なら無視
+
+                isCardExpanded = true; // カードが拡大されたことを記録
+                card.classList.add('expanded');
+                const displayTime = parseInt(card.dataset.time);
+                let remainingTime = displayTime;
+
+                // 即座に残り時間を表示
+                remainingTimeDisplay.style.display = 'block';
+                const countdown = setInterval(() => {
+                    remainingTime -= 1000;
+                    remainingTimeDisplay.innerText = `残り時間: ${remainingTime / 1000}秒`;
+                    if (remainingTime <= 0) {
+                        clearInterval(countdown);
+                        remainingTimeDisplay.style.display = 'none';
+                    }
+                }, 1000);
+
+                // 指定時間経過後に元のサイズに戻す
+                setTimeout(() => {
+                    card.classList.remove('expanded');
+                    startGlobalCooldown(cooldownTime); // 全カードクールダウンを開始
+                    isCardExpanded = false; // 拡大終了を記録
+                }, displayTime);
+            });
+
+            gridContainer.appendChild(card);
+        });
+    }
+
+    // 全カードクールダウン処理
+    function startGlobalCooldown(cooldownTime) {
+        isCooldownActive = true; // 全カード再使用不可状態に
+        cooldownOverlay.style.display = 'flex'; // クールダウンオーバーレイを表示
+        let remainingCooldown = cooldownTime;
+
+        const cooldownInterval = setInterval(() => {
+            remainingCooldown -= 1000;
+            cooldownTimer.innerText = `${remainingCooldown / 1000}`;
+
+            if (remainingCooldown <= 0) {
+                clearInterval(cooldownInterval);
+                cooldownOverlay.style.display = 'none'; // クールダウンオーバーレイを非表示
+                isCooldownActive = false; // 再度カードをクリック可能に
+            }
+        }, 1000);
+    }
+
+    fetchAndDisplayCards();
+</script>
+
+</body>
+</html>
