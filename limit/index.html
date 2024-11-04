@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ランダムカード表示</title>
+    <title>順番にカードを表示</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
-        .container {
-            display: flex;
-            gap: 20px;
+        .grid-container {
+            display: grid;
+            gap: 10px;
+            width: 90%;
+            max-width: 1000px;
         }
         .card {
-            width: 200px;
-            height: 150px;
             border: 2px solid #333;
             border-radius: 10px;
             display: flex;
@@ -27,53 +27,126 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+        .card.expanded {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+        }
+        .remaining-time, .cooldown-time {
+            position: absolute;
+            bottom: 10px;
+            font-size: 14px;
+            color: red;
+        }
+        .disabled {
+            pointer-events: none; /* クリックを無効化 */
+            opacity: 0.5; /* ビジュアル的にクリック不可を示す */
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card" id="card1">Card 1</div>
-    <div class="card" id="card2">Card 2</div>
-</div>
-
-<div class="button-container">
-    <button onclick="fetchRandomLine(1)">カード1を引き直す</button>
-    <button onclick="fetchRandomLine(2)">カード2を引き直す</button>
-</div>
+<div class="grid-container" id="gridContainer"></div>
 
 <script>
-    // テキストファイルからランダムな行を取得
-    async function fetchRandomLine(cardNumber) {
-        const response = await fetch("./data.txt");
+    let isCardExpanded = false; // 他のカードのクリックを防ぐためのフラグ
+
+    async function fetchAndDisplayCards() {
+        const response = await fetch('data.txt');
         const text = await response.text();
         const lines = text.split('\n').filter(line => line.trim() !== '');
+        const gridContainer = document.getElementById('gridContainer');
 
-        // ランダムな行を取得する
-        let randomLine1 = lines[Math.floor(Math.random() * lines.length)];
-        let randomLine2;
-        do {
-            randomLine2 = lines[Math.floor(Math.random() * lines.length)];
-        } while (randomLine1 === randomLine2); // 異なる行を取得する
+        // 行数に応じてグリッドの列数を調整
+        const gridSize = Math.ceil(Math.sqrt(lines.length));
+        gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
-        // カード番号に応じて内容を更新
-        if (cardNumber === 1) {
-            document.getElementById('card1').innerText = randomLine1;
-        } else {
-            document.getElementById('card2').innerText = randomLine2;
-        }
+        lines.forEach((line, index) => {
+            const [text, time] = line.split(',');
+            const displayTime = parseInt(time.trim()); // 表示する時間(ms)
+            const cooldownTime = displayTime + 5000; // 再使用不可時間を設定 (拡大表示時間 + 5秒)
+
+            // カード作成
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerText = text.trim();
+            card.dataset.time = displayTime; // 表示時間
+            card.dataset.cooldown = cooldownTime; // 再使用不可時間
+            card.dataset.remainingTime = displayTime; // 残り時間
+            card.dataset.isOnCooldown = "false"; // 再使用不可かどうか
+
+            // 残り時間を表示するための要素を追加
+            const remainingTimeDisplay = document.createElement('div');
+            remainingTimeDisplay.className = 'remaining-time';
+            remainingTimeDisplay.style.display = 'none';
+            card.appendChild(remainingTimeDisplay);
+
+            // クールダウンを表示するための要素を追加
+            const cooldownTimeDisplay = document.createElement('div');
+            cooldownTimeDisplay.className = 'cooldown-time';
+            cooldownTimeDisplay.style.display = 'none';
+            card.appendChild(cooldownTimeDisplay);
+
+            // カードをクリックしたときのアクション
+            card.addEventListener('click', () => {
+                if (card.dataset.isOnCooldown === "true" || isCardExpanded) return; // 再使用不可、または他のカードが拡大中なら無視
+
+                isCardExpanded = true; // カードが拡大されたことを記録
+                card.classList.add('expanded');
+                const displayTime = parseInt(card.dataset.time);
+                let remainingTime = displayTime;
+
+                // 即座に残り時間を表示
+                remainingTimeDisplay.style.display = 'block';
+                const countdown = setInterval(() => {
+                    remainingTime -= 1000;
+                    remainingTimeDisplay.innerText = `残り時間: ${remainingTime / 1000}秒`;
+                    if (remainingTime <= 0) {
+                        clearInterval(countdown);
+                        remainingTimeDisplay.style.display = 'none';
+                    }
+                }, 1000);
+
+                // 指定時間経過後に元のサイズに戻す
+                setTimeout(() => {
+                    card.classList.remove('expanded');
+                    card.dataset.isOnCooldown = "true"; // 再使用不可状態に
+                    cooldownTimeDisplay.style.display = 'block';
+                    startCooldown(card, cooldownTimeDisplay, cooldownTime); // クールダウン開始
+                    isCardExpanded = false; // 拡大終了を記録
+                }, displayTime);
+            });
+
+            gridContainer.appendChild(card);
+        });
     }
 
-    // 初期表示
-    fetchRandomLine(1);
-    fetchRandomLine(2);
+    // クールダウン処理を行う関数
+    function startCooldown(card, cooldownTimeDisplay, cooldownTime) {
+        let remainingCooldown = parseInt(card.dataset.cooldown);
+        cooldownTimeDisplay.innerText = `再使用不可: ${remainingCooldown / 1000}秒`;
+
+        const cooldownInterval = setInterval(() => {
+            remainingCooldown -= 1000;
+            cooldownTimeDisplay.innerText = `再使用不可: ${remainingCooldown / 1000}秒`;
+
+            if (remainingCooldown <= 0) {
+                clearInterval(cooldownInterval);
+                cooldownTimeDisplay.style.display = 'none'; // クールダウン時間を非表示
+                card.dataset.isOnCooldown = "false"; // 再クリック可能に
+            }
+        }, 1000);
+    }
+
+    fetchAndDisplayCards();
 </script>
 
 </body>
