@@ -93,7 +93,7 @@
         lines.forEach((line, index) => {
             const [text, time] = line.split(',');
             const displayTime = parseInt(time.trim()); // 表示する時間(ms)
-            const cooldownTime = displayTime + 5000; // 再使用不可時間を設定 (拡大表示時間 + 5秒)
+            const cooldownTime = 30000; // 再使用不可時間を設定 (拡大表示時間 + 5秒)
 
             // カード作成
             const card = document.createElement('div');
