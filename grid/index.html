@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランダム画像</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <label for="grid-size">グリッドサイズ:</label>
+    <select id="grid-size">
+        <option value="5" selected>5x5</option>
+        <option value="4">4x4</option>
+        <option value="3">3x3</option>
+    </select>
+
+    <div class="button-container">
+        <button class="reload-button" onclick="confirmReload()">再読み込み</button>
+    </div>
+
+    <div class="grid" id="image-grid"></div>
+
+    <script>
+        const images = [
+            "./image/パネル1.jpg", "./image/パネル2.jpg", "./image/パネル3.jpg", "./image/パネル4.jpg", "./image/パネル5.jpg",
+            "./image/パネル6.jpg", "./image/パネル7.jpg", "./image/パネル8.jpg", "./image/パネル9.jpg", "./image/パネル10.jpg",
+            "./image/パネル11.jpg", "./image/パネル12.jpg", "./image/パネル13.jpg", "./image/パネル14.jpg", "./image/パネル15.jpg",
+            "./image/パネル16.jpg", "./image/パネル17.jpg", "./image/パネル18.jpg", "./image/パネル19.jpg", "./image/パネル20.jpg",
+            "./image/パネル21.jpg", "./image/パネル22.jpg", "./image/パネル23.jpg", "./image/パネル24.jpg", "./image/パネル25.jpg",
+        ];
+
+        function createGrid(size) {
+            const gridContainer = document.getElementById("image-grid");
+            gridContainer.innerHTML = '';
+            gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+            const availableImages = [...images];
+            for (let i = 0; i < size * size; i++) {
+                if (availableImages.length === 0) break;
+                const randomIndex = Math.floor(Math.random() * availableImages.length);
+                const selectedImage = availableImages.splice(randomIndex, 1)[0];
+
+                const img = document.createElement("img");
+                img.src = selectedImage;
+                gridContainer.appendChild(img);
+            }
+        }
+
+        function confirmReload() {
+            const userConfirmed = confirm("ページを離れると変更が保存されません。よろしいですか？");
+            if (userConfirmed) {
+                const gridSize = parseInt(document.getElementById("grid-size").value);
+                createGrid(gridSize);
+            }
+        }
+
+        document.getElementById("grid-size").addEventListener("change", (event) => {
+            const gridSize = parseInt(event.target.value);
+            createGrid(gridSize);
+        });
+
+        createGrid(5);
+    </script>
+
+</body>
+
+</html>

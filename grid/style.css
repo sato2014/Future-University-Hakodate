@@ -1,0 +1,42 @@
+body {
+    background-color: rgb(55, 64, 64);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    position: relative;
+}
+.grid {
+    display: grid;
+    gap: 0vmin;
+    max-width: 70vmin;
+    margin: 20px auto;
+}
+.grid img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.reload-button {
+    background-color: #4CAF50;
+    color: white;
+}
+label {
+    color: white;
+}

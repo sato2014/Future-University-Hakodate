@@ -3,91 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>複数タイマー</title>
+    <title>3分タイマー</title>
     <style>
-        .timer {
+        /* 画面全体を中央に配置 */
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin: 10px 0;
+            height: 100vh;
+            margin: 0;
+            background-color: rgb(55, 64, 64);
+            color: white;
+            overflow: hidden;
+            position: relative;
         }
-        .active {
-            order: -1; /* 上に移動 */
+
+        /* コンテンツの中心配置 */
+        .container {
+            text-align: center;
         }
-        .reset {
-            order: 1; /* 下に移動 */
+
+        #timer {
+            font-size: 72px;
+            margin-bottom: 20px;
+            color: #b0f8f2;
+            font-weight: bold;
+            transition: color 0.3s ease;
         }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #startStop {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #startStop.running {
+            background-color: #f44336;
+            color: rgb(255, 255, 255);
+        }
+
+        #reset {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        #shorten {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body>
-    <div id="timers"></div>
-    <button onclick="addTimer()">タイマー追加</button>
+
+    <div class="container">
+        <div id="timer">03:00:00</div>
+        <button id="startStop">開始</button>
+        <button id="reset">リセット</button>
+        <button id="shorten">-10秒</button>
+    </div>
 
     <script>
-        let timerCount = 0;
+        let timerInterval;
+        let timeLeft = 180000; // 3分 = 180000ミリ秒
+        let isRunning = false;
 
-        function addTimer() {
-            timerCount++;
-            const timerDiv = document.createElement('div');
-            timerDiv.classList.add('timer');
+        const timerDisplay = document.getElementById('timer');
+        const startStopButton = document.getElementById('startStop');
+        const resetButton = document.getElementById('reset');
+        const shortenButton = document.getElementById('shorten');
 
-            const display = document.createElement('span');
-            display.innerText = '00:00';
-            timerDiv.appendChild(display);
+        // 時間表示の更新関数（ミリ秒表示）
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeLeft / 3600000);
+            const minutes = Math.floor((timeLeft % 3600000) / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            const milliseconds = Math.floor((timeLeft % 1000) / 10); // ミリ秒を2桁表示
 
-            const startButton = document.createElement('button');
-            startButton.innerText = '開始';
-            timerDiv.appendChild(startButton);
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+        }
 
-            const stopButton = document.createElement('button');
-            stopButton.innerText = '停止';
-            timerDiv.appendChild(stopButton);
-
-            const resetButton = document.createElement('button');
-            resetButton.innerText = 'リセット';
-            timerDiv.appendChild(resetButton);
-
-            let timerInterval;
-            let seconds = 0;
-
-            startButton.onclick = () => {
-                if (timerInterval) return;
-                startButton.disabled = true;
-                stopButton.disabled = false;
+        // タイマー開始/停止のトグル
+        function toggleTimer() {
+            if (isRunning) {
+                // 停止時はタイマーを止め、ボタンを「開始」に戻す
+                clearInterval(timerInterval);
+                startStopButton.textContent = '開始';
+                startStopButton.classList.remove('running');
+            } else {
+                // 開始時はタイマーをスタート
                 timerInterval = setInterval(() => {
-                    seconds++;
-                    display.innerText = formatTime(seconds);
-                    timerDiv.classList.add('active');
-                }, 1000);
-            };
-
-            stopButton.onclick = () => {
-                clearInterval(timerInterval);
-                timerInterval = null;
-                startButton.disabled = false;
-                stopButton.disabled = true;
-                timerDiv.classList.remove('active');
-                timerDiv.classList.add('reset');
-            };
-
-            resetButton.onclick = () => {
-                clearInterval(timerInterval);
-                seconds = 0;
-                display.innerText = '00:00';
-                timerInterval = null;
-                startButton.disabled = false;
-                stopButton.disabled = true;
-                timerDiv.classList.remove('active');
-                timerDiv.classList.remove('reset');
-            };
-
-            document.getElementById('timers').appendChild(timerDiv);
+                    if (timeLeft > 0) {
+                        timeLeft -= 10; // 10ミリ秒単位で減少
+                        updateTimerDisplay();
+                    } else {
+                        // タイマーが0になったら停止
+                        clearInterval(timerInterval);
+                        startStopButton.textContent = '開始';
+                        startStopButton.classList.remove('running');
+                        showNotification(); // 通知を表示
+                    }
+                }, 10); // 10ミリ秒ごとに更新
+                startStopButton.textContent = '停止';
+                startStopButton.classList.add('running');
+            }
+            isRunning = !isRunning;
         }
 
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return String(minutes).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        // タイマーのリセット
+        function resetTimer() {
+            timeLeft = 180000; // 3分にリセット（180,000ミリ秒）
+            updateTimerDisplay();
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                startStopButton.textContent = '開始';
+                startStopButton.classList.remove('running');
+            }
         }
+
+        // タイマーの10秒短縮
+        function shortenTimer() {
+            if (timeLeft > 10000) {
+                timeLeft -= 10000; // 10秒を10000ミリ秒として短縮
+                updateTimerDisplay();
+            } else {
+                timeLeft = 10; // 10秒を10000ミリ秒として短縮
+            }
+        }
+
+        // 通知を表示する関数
+        function showNotification() {
+            // 通知が許可されていない場合、許可を求める
+            if (Notification.permission === "granted") {
+                new Notification("タイマー終了", { body: "3分が経過しました！" });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("タイマー終了", { body: "3分が経過しました！" });
+                    }
+                });
+            }
+        }
+
+        // イベントリスナー
+        startStopButton.addEventListener('click', toggleTimer);
+        resetButton.addEventListener('click', resetTimer);
+        shortenButton.addEventListener('click', shortenTimer);
+
+        // 初期表示更新
+        updateTimerDisplay();
     </script>
+
 </body>
 </html>
