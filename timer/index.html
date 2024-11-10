@@ -80,7 +80,7 @@
         <div id="timer">03:00:00</div>
         <button id="startStop">開始</button>
         <button id="reset">リセット</button>
-        <button id="shorten">-10秒</button>
+        <button id="shorten">-3秒</button>
     </div>
 
     <script>
@@ -144,8 +144,8 @@
 
         // タイマーの10秒短縮
         function shortenTimer() {
-            if (timeLeft > 10000) {
-                timeLeft -= 10000; // 10秒を10000ミリ秒として短縮
+            if (timeLeft > 3000) {
+                timeLeft -= 3000; // 10秒を10000ミリ秒として短縮
                 updateTimerDisplay();
             } else {
                 timeLeft = 10; // 10秒を10000ミリ秒として短縮
