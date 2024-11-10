@@ -1,9 +1,17 @@
+
+@font-face {
+    font-family: "myfont"; /*任意のフォントファミリー名でOK*/
+    src: url("../font/misaki_gothic.ttf") format("truetype"); /*fontがあるパスを書いて、formatを指定*/
+    font-display: swap; /*ダウンロード状況に応じてフォントの表示を変える
+(「swap」はWebフォントが読み込まれるまでフォールバックフォントで表示し、読み込まれた時点で置き換えます。)*/
+}
 body {
     background-color: rgb(55, 64, 64);
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: Arial, sans-serif;
+    font-family: "myfont", sans-serif;
+    font-size: 20px;
     margin: 0;
     padding: 20px;
     color: #333;
@@ -28,10 +36,10 @@ body {
 }
 button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-family: "myfont", sans-serif;
+    font-size: 20px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
 }
 .reload-button {
     background-color: #4CAF50;

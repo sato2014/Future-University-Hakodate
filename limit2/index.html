@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>順番にカードを表示</title>
     <style>
+        @font-face {
+            font-family: "myfont";
+            src: url("../font/misaki_gothic.ttf") format("truetype");
+            font-display: swap;
+        }
         body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-family: "myfont", sans-serif;
+            font-size: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,7 +29,7 @@
         }
         .card {
             border: 2px solid #000000;
-            border-radius: 10px;
+            border-radius: 0px;
             display: flex;
             justify-content: center;
             align-items: center;

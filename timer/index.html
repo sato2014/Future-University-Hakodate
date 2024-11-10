@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3分タイマー</title>
     <style>
+        @font-face {
+            font-family: "myfont";
+            src: url("../font/misaki_gothic.ttf") format("truetype");
+            font-display: swap;
+        }
         /* 画面全体を中央に配置 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: myfont, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,7 +30,7 @@
         }
 
         #timer {
-            font-size: 72px;
+            font-size: 100px;
             margin-bottom: 20px;
             color: #b0f8f2;
             font-weight: bold;
@@ -33,11 +38,12 @@
         }
 
         button {
+            font-family: myfont, sans-serif;
             font-size: 16px;
             padding: 10px 20px;
             margin: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 0px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
