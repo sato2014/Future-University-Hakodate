@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3分タイマー</title>
+    <title>5分タイマー</title>
     <style>
         @font-face {
             font-family: "myfont";
@@ -132,7 +132,7 @@
 
         // タイマーのリセット
         function resetTimer() {
-            timeLeft = 180000; // 3分にリセット（180,000ミリ秒）
+            timeLeft = 300000; // 3分にリセット（180,000ミリ秒）
             updateTimerDisplay();
             if (isRunning) {
                 clearInterval(timerInterval);
@@ -156,11 +156,11 @@
         function showNotification() {
             // 通知が許可されていない場合、許可を求める
             if (Notification.permission === "granted") {
-                new Notification("タイマー終了", { body: "3分が経過しました！" });
+                new Notification("タイマー終了", { body: "5分が経過しました！" });
             } else if (Notification.permission !== "denied") {
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
-                        new Notification("タイマー終了", { body: "3分が経過しました！" });
+                        new Notification("タイマー終了", { body: "5分が経過しました！" });
                     }
                 });
             }
