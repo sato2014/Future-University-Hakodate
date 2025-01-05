@@ -1,54 +1,177 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hello</title>
-    <script>
-        function checkPassword1() {
-            const password = prompt("hello:");
-            const correctPassword = "local"; // ここに正しいパスワードを入力
-
-            if (password === correctPassword) {
-                window.location.href = "./reader/?"; // リダイレクト先のURL
-            } else {
-                alert(":(");
-            }
-        }
-        function checkPassword2() {
-            const password = prompt("hello:");
-            const correctPassword = "local"; // ここに正しいパスワードを入力
-
-            if (password === correctPassword) {
-                window.location.href = "./limit/?"; // リダイレクト先のURL
-            } else {
-                alert(":(");
-            }
-        }
-        function checkPassword3() {
-            const password = prompt("hello:");
-            const correctPassword = "local"; // ここに正しいパスワードを入力
-
-            if (password === correctPassword) {
-                window.location.href = "./limit2/?"; // リダイレクト先のURL
-            } else {
-                alert(":(");
-            }
-        }
-    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="./css/css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./css/parts.css">
+    <link rel="stylesheet" type="text/css" href="./css/layout.css">
 </head>
-<body>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword2()">click</button>
-    <button onclick="checkPassword3()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
-    <button onclick="checkPassword1()">click</button>
+
+<body class="appear">
+
+    <div id="splash">
+        <div id="splash_text"></div></div>
+    </div>
+
+    <div id="particles-js"><canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;" width="765"
+            height="864"></canvas></div>
+    <div id="wrapper">
+
+        <header id="header" class="fadeDownTrigger fadeDown">
+            <h1 class="smoothTrigger smooth">Crack Trick</h1>
+            <div class="header-area">
+                <ul>
+                    <li>
+                        <dl>
+                            <dt>情報デザインII - GROUP 10</dt>
+                        </dl>
+                    </li>
+                </ul>
+                <a href="https://github.com/sato2014/Future-University-Hakodate"
+                    class="float3"><span>Source</span></a>
+            </div>
+        </header>
+
+        <div id="container">
+            <main>
+                <section class="fluid-area">
+                    <div class="fluid-block smoothTrigger smooth">
+                        <figure class="img smoothTrigger"><img src="/img/nui.png" alt="">
+                    </div>
+                    <div class="fluid-lead">
+                        <h2><span class="randomAnime"><span style="visibility: hidden;">
+                                <ul class="texts" style="display: none;">
+                                    <li class="current">CRACK</li>
+                                </ul>
+                            </span><br><span class="randomAnime"><span style="visibility: hidden;">
+                                <ul class="texts" style="display: none;">
+                                    <li class="current">     TRICK</li>
+                                </ul>
+                            </span></h2>
+                        <p class="smoothTrigger smooth">新感覚2v2の伝言パズルゲーム<br>　　　ダブルブッキングを阻止せよーーー。</p>
+                        <!--/fluid-lead-->
+                    </div>
+                    <!--/fluid-area-->
+                </section>
+
+                <section id="topics">
+                    <div class="heading-block smoothTrigger smooth">
+                        <h2 class="heading01">T<span class="en">opics</span><span class="jp">更新情報</span></h2>
+                    </div>
+                    <div class="topics-area">
+                        <article class="smoothTrigger"><a
+                                href="#greeting">
+                                <figure class="zoomOut"><span class="mask"><img src="./img/b966236915edcd7d.png"
+                                            alt=""></span></figure>
+                                <div class="topics-block">
+                                    <h3>ルール</h3>
+                                    <time>詳しい詳細についてはこちらから！</time>
+                                </div>
+                            </a></article>
+                        <article class="smoothTrigger"><a
+                                href="https://sato2014.github.io/Future-University-Hakodate/limit2/">
+                                <figure class="zoomOut"><span class="mask"><img src="./img/limit.png"
+                                            alt=""></span></figure>
+                                <div class="topics-block">
+                                    <h3>制限</h3>
+                                    <time>相手チームの制限カードはこちらから！</time>
+                                </div>
+                            </a></article>
+                        <article class="smoothTrigger"><a
+                                href="https://sato2014.github.io/Future-University-Hakodate/grid/">
+                                <figure class="zoomOut"><span class="mask"><img src="./img/grid.png"
+                                            alt=""></span></figure>
+                                <div class="topics-block">
+                                    <h3>パズル</h3>
+                                    <time>諜報員の答えのパズルはこちらから！</time>
+                                </div>
+                            </a></article>
+                        <article class="smoothTrigger"><a
+                                href="https://sato2014.github.io/Future-University-Hakodate/timer/">
+                                <figure class="zoomOut"><span class="mask"><img src="./img/timer.png"
+                                            alt=""></span></figure>
+                                <div class="topics-block">
+                                    <h3>タイマー</h3>
+                                    <time>専用のタイマーはこちらから！</time>
+                                </div>
+                            </a></article>
+                        <!--/topics-area-->
+                    </div>
+                </section>
+
+                <section id="greeting">
+                    <div class="heading-block smoothTrigger smooth">
+                        <h2 class="heading01">R<span class="en">ules</span><span class="jp">規則</span></h2><br>
+                    </div>
+                    <div class="greeting-area">
+                        <figure class="greeting-img smoothTrigger"><img src="./img/images.png" alt="">
+                        </figure>
+                        <div class="greeting-content">
+                            <h2 class="heading01 smoothTrigger">S<span class="en">PY side</span><span
+                                    class="jp">スパイ側</span></h2>
+                            <p class="greeting-lead smoothTrigger">オペレーター側と連携<br>指示を受けて適切に配置しろ！</p>
+                            <p class="smoothTrigger">スパイがすることは、主に情報収集、監視、そして秘密の活動に関連しています。以下はスパイの仕事の一例です：</p>
+                            <p class="smoothTrigger">スパイの仕事は非常に多岐にわたり、主に情報収集や監視、秘密活動に関わるものです。まず、スパイは他国や敵対勢力から重要な情報を集めるため、さまざまな手段を使います。これには、政治、軍事、経済、外交政策などに関する情報を得ることが含まれます。企業スパイの場合は、商業的な機密や技術、製品の設計に関する情報を収集することもあります。また、近年ではサイバースパイ活動も重要で、インターネットを介して情報をハッキングし、不正に取得することも行われています。さらに、スパイは監視や尾行を通じて、ターゲットとなる人物の行動を追跡し、必要な情報を得るためにその動向を詳細に観察します。尾行の際には、対象人物が気づかないように巧妙に行動する必要があります。加えて、スパイは変装や偽装を用いて、ターゲットに接近することもあります。偽名や偽の職業で潜入し、敵の組織内に情報を得るために入り込むのです。これらの活動は、非常に慎重で計画的に行われ、成功するためには高い専門性が求められます。また、スパイ活動では、暗号化されたメッセージやコードを使って秘密の通信を行い、情報漏洩を防ぐために工夫を凝らします。通信の際には、死者の手紙と呼ばれる手法を使って、指定された場所に物理的に情報を隠すこともあります。スパイが従事する仕事の中には、二重スパイとして敵に情報を渡しながら、自国のために活動することもあります。さらに、スパイは裏切り者を見つけ出し、内部で情報漏洩を防ぐ役割も担います。心理戦や情報操作もスパイ活動の一環として行われ、敵に誤った情報を流して混乱を招いたり、特定の意図を達成するためにプロパガンダ活動を行うこともあります。スパイはまた、任務を遂行するために地形や施設を調査したり、対人ネットワークを築いてターゲットの人物に接近することがあります。必要に応じて、戦闘技術や自己防衛技術も学び、任務が失敗した場合の脱出や危険回避の方法を習得することもあります。最後に、外交官のカバーを使って他国に赴任し、表向きは外交的活動を行いながら裏でスパイ活動をすることもあります。スパイの仕事は多くのリスクを伴い、極めて機密性の高い任務が多いため、常に注意深く計画的に行動しなければならない職業です。</p>
+                            <!--/greeting-content-->
+                        </div>
+                        <!--/greeting-area-->
+                    </div>
+                    <div class="greeting-area">
+
+                        <div class="greeting-content">
+                            <h2 class="heading01 smoothTrigger">O<span class="en">PERATOR side</span><span
+                                    class="jp">オペレーター側</span></h2>
+                            <p class="greeting-lead smoothTrigger">スパイ側と連携<br>わかりやすく説明して配置させよ！</p>
+                            <p class="smoothTrigger">オペレーターの役割は、スパイの活動を支援し、指揮・監督することです。以下はオペレーターの仕事の一例です：</p>
+                            <p class="smoothTrigger">オペレーターは通常、情報の収集や分析、指令の伝達、そして現場のスパイとの連携を担当します。彼らはスパイが安全に任務を遂行できるよう、戦術的な指導やリソースの提供を行います。具体的な役割としては、まず、オペレーターはスパイに対して任務の詳細を伝え、目標や期限、優先事項を明確にします。オペレーターはスパイが置かれた状況に応じて、リアルタイムで指示を出し、必要な支援を提供します。例えば、スパイがターゲットを尾行している場合、オペレーターはその進行状況を監視し、無事に任務を遂行できるようサポートします。また、オペレーターは通常、通信を通じてスパイと連絡を取り、スパイが遭遇する可能性のある危険を回避するために指示を与えることもあります。オペレーターの重要な役割の一つは、現場からの情報を収集し、必要な分析を行うことです。スパイが収集した情報を受け取ると、オペレーターはそれを迅速に評価し、上層部に報告します。この情報が機密性の高いものであれば、オペレーターはそれを保護し、適切な方法で次のステップを考えます。さらに、オペレーターはスパイが使用する機器やツールを管理し、必要に応じて、暗号化技術や特殊装備を提供します。オペレーターは、スパイが現地で直接関わらないようなバックアップやサポートを行い、作戦の成功を確実にするための裏方として機能します。任務の進行中には、オペレーターが通信のセキュリティを確保し、敵に情報が漏れないように細心の注意を払います。任務が完了した後、オペレーターはスパイと連携して情報を整理し、結果を分析して次のステップに備えることが求められます。このように、オペレーターはスパイが直接的に行動するための支援を行い、作戦全体の成功に不可欠な役割を果たします。</p>
+                            <!--/greeting-content-->
+                        </div>
+                        <!--/greeting-area-->
+                        <figure class="greeting-img smoothTrigger">
+                            <a href="#header">
+                                <img src="./img/3364-600x600.jpg" alt="">
+                            </a>
+                        </figure>
+                    </div>
+                </section>
+            </main>
+
+            <footer id="footer">
+                <div id="page-top"><a
+                        href="#header"></a>
+                </div>
+            </footer>
+
+            <canvas id="waveCanvas" width="941" height="200"></canvas>
+            <!--/container-->
+        </div>
+        <!--/wrapper-->
+    </div>
+
+    <!--=============JS ===============-->
+    <!--jQuery-->
+    <script src="./js/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!--機能編 4-1-2 プログレスバー＋数字カウントアップ-->
+    <script src="./js/progressbar.min.js"></script>
+    <!--IE11用-->
+    <script src="./js/babel.min.js"></script>
+    <script src="./js/polyfill.min.js"></script>
+    <!--印象編　8-8 テキストがランダムに出現-->
+    <script src="./js/jquery.textillate.min.js"></script>
+    <script src="./js/jquery.lettering.js"></script>
+    <!--印象編　5-4 幾何学模様-->
+    <script src="./js/particles.min.js"></script>
+    <!--自作のJS-->
+    <script src="./js/script.js"></script>
+
+
 </body>
+
 </html>
