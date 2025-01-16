@@ -162,7 +162,7 @@ img{
 }
 
 .fluid-lead h2{
-    font-size: 4vw;
+    font-size: 5vw;
     letter-spacing: 0.2em;
     line-height: 1.4;
     margin: 0 0 40px 0;
@@ -207,7 +207,7 @@ body.appear .fluid-lead h2{
      height:60vh;
 }  
 .fluid-lead h2{
-    font-size: 1.8rem;
+    font-size: 3.5rem;
     }
     .fluid-lead{
         padding: 0;
@@ -458,7 +458,7 @@ body.appear .fluid-lead h2{
 }
 
 .greeting-img{
-    width:50%;
+    width:35%;
 }
 
 .greeting-img img{
@@ -466,7 +466,7 @@ body.appear .fluid-lead h2{
 }
 
 .greeting-content{
-    width:40%;
+    width:60%;
 }
 
 @media screen and (max-width:768px) {
